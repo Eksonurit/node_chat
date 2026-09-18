@@ -92,11 +92,11 @@ const renameRoom = (req, res) => {
   const { newName } = req.body;
 
   if (!isUserAdmin) {
-    res.status(403).send('Forbidden');
+    return res.status(403).send('Forbidden');
   }
 
   if (newName.length < 4) {
-    res.status(400).send('Bad request');
+    return res.status(400).send('Bad request');
   }
 
   roomsService.renameRoom(roomId, newName);

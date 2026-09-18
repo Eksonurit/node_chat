@@ -69,6 +69,7 @@ wss.on('connection', (ws) => {
       text,
       author,
       id: messageId,
+      time: new Date().toISOString(),
       roomId: ws.roomId,
     };
 
@@ -93,9 +94,5 @@ wss.on('connection', (ws) => {
         );
       }
     }
-  });
-
-  ws.on('close', () => {
-    'd';
   });
 });

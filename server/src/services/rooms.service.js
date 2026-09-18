@@ -15,6 +15,11 @@ const createNewRoom = ({ name }, user) => {
   }
 
   const author = userService.findAuthor(user);
+
+  if (!author) {
+    return;
+  }
+
   const newRoom = {
     name,
     members: [author],
@@ -35,6 +40,10 @@ const getRoomById = (id) => {
 const isUserAdmin = (user, roomId) => {
   const room = getRoomById(roomId);
 
+  if (!room) {
+    return false;
+  }
+
   if (room.admin.name === user) {
     return true;
   }
@@ -50,6 +59,11 @@ const deleteRoom = (id) => {
 
 const leaveRoom = (roomId, user) => {
   const room = getRoomById(roomId);
+
+  if (!room) {
+    return;
+  }
+
   const newMembers = room.members.filter((member) => member.name !== user);
 
   room.members = newMembers;
@@ -58,11 +72,19 @@ const leaveRoom = (roomId, user) => {
 const joinRoom = (id, user) => {
   const room = getRoomById(id);
 
+  if (!room) {
+    return;
+  }
+
   room.members.push(user);
 };
 
 const renameRoom = (id, newName) => {
   const room = getRoomById(id);
+
+  if (!room) {
+    return;
+  }
 
   room.name = newName;
 };
