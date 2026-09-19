@@ -3,25 +3,26 @@ import type { Room } from "../types";
 import { Link, useNavigate } from "react-router-dom";
 import { joinRoom } from "../api/rooms";
 import { isUserInTheRoom } from "../utils";
+import { useChat } from "../ChatContext";
 
 interface Props {
   room: Room;
 }
 
 export const RoomCard: React.FC<Props> = ({ room }) => {
+  const { currentUser } = useChat();
   const navigate = useNavigate();
 
   const isUserJoined = useMemo(() => {
-    const userName = localStorage.getItem("user");
-    if (!userName) {
+    if (!currentUser) {
       return;
     }
     const user = {
-      name: userName,
+      name: currentUser,
     };
 
     return isUserInTheRoom(room, user);
-  }, []);
+  }, [currentUser]);
 
   const handleJoin = async () => {
     try {

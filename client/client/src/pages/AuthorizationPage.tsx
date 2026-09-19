@@ -5,7 +5,7 @@ import { isUserAuth } from "../utils";
 
 export const AuthorizationPage = () => {
   const [username, setUsername] = useState("");
-  const { loginUser } = useChat();
+  const { handleLoginUser } = useChat();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -17,7 +17,7 @@ export const AuthorizationPage = () => {
     const userData = {
       name: trimmed,
     };
-    await loginUser(userData);
+    await handleLoginUser(userData);
     const isAutheticated = isUserAuth();
     console.log(isAutheticated);
 

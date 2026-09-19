@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import type { Message } from "../types";
+import { useChat } from "../ChatContext";
 
 interface Props {
   messages: Message[];
 }
 
 export const MessageList: React.FC<Props> = ({ messages }) => {
-  const user = localStorage.getItem("user");
+  const { currentUser } = useChat();
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -18,7 +19,7 @@ export const MessageList: React.FC<Props> = ({ messages }) => {
     <div className="chat-container">
       <div className="message-list">
         {messages.map((message) => {
-          const isOwn = message.author === user;
+          const isOwn = message.author === currentUser;
 
           return (
             <div
@@ -33,6 +34,7 @@ export const MessageList: React.FC<Props> = ({ messages }) => {
                 className={`message-bubble ${isOwn ? "message-bubble--own" : ""}`}
               >
                 <p className="message-text">{message.text}</p>
+                <span className="message-time">{message.time}</span>
               </div>
             </div>
           );

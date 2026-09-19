@@ -1,25 +1,22 @@
 import { useState } from "react";
 import { useChat } from "../ChatContext";
-import { Navigate } from "react-router-dom";
 
 export const MessageForm = () => {
   const [text, setText] = useState("");
   const { sendMessage } = useChat();
 
-  const author = localStorage.getItem("user");
-
-  if (!author) {
-    return <Navigate to={"/auth"} replace />;
-  }
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    sendMessage({ text, author });
+    const trimmedText = text.trim();
+    if (!trimmedText) return;
+
+    sendMessage({ text: trimmedText });
     setText("");
   };
 
   return (
-    <form className="chat-form" onSubmit={(e) => handleSubmit(e)}>
+    <form className="chat-form" onSubmit={handleSubmit}>
       <input
         type="text"
         className="chat-input"
